@@ -1,0 +1,18 @@
+{
+    "name": "knplabs/knp-rad-table",
+    "require-dev": {
+        "phpspec/phpspec": "~2@dev",
+        "knplabs/phpspec-welldone-extension": "dev-master"
+    },
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": { "Knp\\RadTable": "src/" }
+    }
+}
