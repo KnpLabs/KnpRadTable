@@ -1,6 +1,9 @@
 {% block _node_outter %}
 {% spaceless %}
-{{ ('<' ~ node.vars.tag ~ ' name="' ~ node.vars.blocks[0] ~ '">')|raw }}
+{% if node.vars.debug is defined and node.vars.debug == true %}
+<!-- {{ node.vars.blocks|join(', ') }}  -->
+{% endif %}
+{{ ('<' ~ node.vars.tag ~ '>')|raw }}
     {{ knp_table_inner(node) }}
 {{ ('</' ~ node.vars.tag ~ '>')|raw }}
 {% endspaceless %}
