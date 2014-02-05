@@ -15,6 +15,7 @@ class TableExtension extends \Twig_Extension
     protected $renderer;
     protected $twig;
     protected $accessor;
+    protected $baseTheme;
 
     public function __construct(TableFactory $tableFactory, TableRenderer $renderer, \Twig_Environment $twig, PropertyAccessor $accessor)
     {
@@ -42,14 +43,23 @@ class TableExtension extends \Twig_Extension
         );
     }
 
-    public function setTheme($name, $template)
+    public function setTheme($name, $template, $libTemplate = false)
     {
-        var_dump($template);
+        $this->registerTemplates();
+
+        if (true === $libTemplate) {
+            $template = sprintf('@%s', $template);
+        }
+
         if (!array_key_exists($name, $this->themes)) {
             $this->themes[$name] = $this->twig->loadTemplate($template);
         }
     }
 
+    public function setBaseTheme($baseTheme)
+    {
+        $this->baseTheme = $baseTheme;
+    }
 
     public function renderTable($items, array $mapping, array $config = array())
     {
@@ -61,11 +71,13 @@ class TableExtension extends \Twig_Extension
 
     public function renderNodeInner(NodeViewInterface $node)
     {
+        $this->init();
         return $this->renderer->renderNode($node, $this->themes, TableRenderer::SIDE_INNER);
     }
 
     public function renderNodeOutter(NodeViewInterface $node)
     {
+        $this->init();
         return $this->renderer->renderNode($node, $this->themes, TableRenderer::SIDE_OUTTER);
     }
 
@@ -77,5 +89,25 @@ class TableExtension extends \Twig_Extension
     public function getName()
     {
         return 'knp_table';
+    }
+
+    protected function init()
+    {
+        if (0 === count($this->themes)) {
+            $this->setTheme('', $this->baseTheme, true);
+        }
+    }
+
+    protected function registerTemplates()
+    {
+        $namespace = 'KnpRad';
+        $path = dirname(__DIR__).'/Resources/views';
+
+        if (in_array($path, $this->twig->getLoader()->getPaths($namespace))) {
+
+            return;
+        }
+
+        $this->twig->getLoader()->addPath($path, $namespace);
     }
 }

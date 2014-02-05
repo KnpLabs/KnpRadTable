@@ -1,7 +1,7 @@
 parameters:
     knp_rad.twig.table_extension.class: Knp\RadTable\Twig\TableExtension
-    knp_rad.table.factory.class: Knp\RadTable\Table\TableFactory
-    knp_rad.table.renderer.class: Knp\RadTable\Table\TableRenderer
+    knp_rad.table.factory.class: Knp\RadTable\Factory\TableFactory
+    knp_rad.table.renderer.class: Knp\RadTable\Rendering\TableRenderer
 
 services:
     knp_rad.table.factory:
@@ -15,5 +15,7 @@ services:
             - @knp_rad.table.renderer
             - @twig
             - @property_accessor
+        calls:
+            - [ setBaseTheme, [ 'KnpRad/table.html.twig' ] ]
         tags:
             - { name: twig.extension }
