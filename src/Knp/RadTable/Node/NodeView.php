@@ -24,12 +24,21 @@ class NodeView implements NodeViewInterface
     public function setParent(NodeViewInterface $parent)
     {
         $this->parent = $parent;
-        $this->vars['data'] = $this->parent->getData();
+        $this->setData($this->parent->getData());
+
+        return $this;
     }
 
     public function getData()
     {
         return $this->vars['data'];
+    }
+
+    public function setData($data)
+    {
+        $this->vars['data'] = $data;
+
+        return $this;
     }
 
     public function compute()

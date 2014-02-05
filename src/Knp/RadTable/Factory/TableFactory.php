@@ -6,7 +6,7 @@ use Knp\RadTable\Node\TableView;
 use Knp\RadTable\Node\RowView;
 use Knp\RadTable\Node\NodeView;
 
-class TableFactory
+class TableFactory implements TableFactoryInterface
 {
     public function create($items, array $mapping, array $config = array())
     {

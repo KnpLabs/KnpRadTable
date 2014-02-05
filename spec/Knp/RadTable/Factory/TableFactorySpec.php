@@ -11,4 +11,9 @@ class TableFactorySpec extends ObjectBehavior
     {
         $this->shouldHaveType('Knp\RadTable\Factory\TableFactory');
     }
+
+    function it_should_build_a_table_view()
+    {
+        $this->create([], [], [])->shouldHaveType('Knp\RadTable\Node\TableView');
+    }
 }
