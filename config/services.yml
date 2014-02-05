@@ -16,6 +16,6 @@ services:
             - @twig
             - @property_accessor
         calls:
-            - [ setBaseTheme, [ 'KnpRad/table.html.twig' ] ]
+            - [ setBaseTheme, [ 'KnpRad/Twig/Table/base.html.twig' ] ]
         tags:
             - { name: twig.extension }
