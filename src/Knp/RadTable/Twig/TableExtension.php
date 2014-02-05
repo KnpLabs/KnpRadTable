@@ -64,7 +64,7 @@ class TableExtension extends \Twig_Extension
     public function renderTable($items, array $mapping, array $config = array())
     {
         $table = $this->tableFactory->create($items, $mapping, $config);
-        $table->compute();
+        $table->compile();
 
         return $this->renderNodeOutter($table);
     }

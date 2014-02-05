@@ -6,5 +6,8 @@ interface NodeViewInterface
 {
     function getParent();
     function getData();
-    function compute();
+    function setData($data);
+    function getVars();
+    function compile();
+    function isCompiled();
 }

@@ -6,6 +6,7 @@ class NodeView implements NodeViewInterface
 {
     protected $parent;
     protected $vars;
+    protected $compiled;
 
     public function __construct($id, array $config = array())
     {
@@ -14,6 +15,12 @@ class NodeView implements NodeViewInterface
             array('id' => $id),
             $config
         );
+        $this->compiled = false;
+    }
+
+    public function isCompiled()
+    {
+        return $this->compiled;
     }
 
     public function getParent()
@@ -41,35 +48,39 @@ class NodeView implements NodeViewInterface
         return $this;
     }
 
-    public function compute()
+    public function compile()
     {
-        $this->vars['blocks'] = $this->getRenderedBlockNames();
+        $this->compiled = true;
 
+        $blocks = [];
         if (null !== $this->parent) {
-            $this->vars = array_merge($this->parent->getVars(), $this->vars);
+            if (false === $this->parent->isCompiled()) {
+                throw new \Exception('Parent node should be compiled');
+            }
+
+            $vars = $this->parent->getVars();
+
+            foreach ($vars['blocks'] as $block) {
+                foreach ($this->getBlockSuffixes() as $suffixe) {
+                    $blocks[] = sprintf('%s_%s', $block, $suffixe);
+                }
+            }
+        } else {
+            $blocks = array_map(
+                function ($e) { return sprintf('_%s', $e); },
+                $this->getBlockSuffixes()
+            );
         }
+        $this->vars['blocks'] = $blocks;
+
+        return $this;
     }
 
     public function getVars()
     {
+        ksort($this->vars);
+
         return $this->vars;
-    }
-
-    protected function getRenderedBlockNames()
-    {
-        $names = array();
-
-        foreach ($this->getBlockSuffixes() as $suffixe) {
-            if (null !== $this->parent) {
-                foreach ($this->parent->getRenderedBlockNames() as $name) {
-                    $names[] = sprintf('%s_%s', $name, $suffixe);
-                }
-            } else {
-                $names[] = sprintf('_%s', $suffixe);
-            }
-        }
-
-        return $names;
     }
 
     protected function getBlockSuffixes()
@@ -83,7 +94,8 @@ class NodeView implements NodeViewInterface
     protected function getDefaultConfig()
     {
         return array(
-            'tag' => 'td',
+            'tag'  => 'td',
+            'data' => null,
         );
     }
 }

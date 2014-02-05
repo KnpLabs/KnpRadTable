@@ -14,12 +14,17 @@ class NodeViewSpec extends ObjectBehavior
      **/
     function let($parent, $parent2, $data)
     {
-        $this->beConstructedWith('TheId', []);
+        $this->beConstructedWith('the_id', []);
         $this->setParent($parent);
 
-        $parent->getData()->willReturn($data);
-        $parent2->getData()->willReturn($data);
-    }
+        $parent->getVars()->willReturn([]);
+        $parent->isCompiled()->willReturn(true);
+        $parent->getVars()->willReturn(array(
+            'id' => 'parent_id',
+            'tag' => 'tr',
+            'blocks' => array('_parent', '_array'),
+        ));
+}
 
     function it_is_initializable()
     {
@@ -37,21 +42,38 @@ class NodeViewSpec extends ObjectBehavior
         $this->getParent()->shouldReturn($parent2);
     }
 
-    function it_should_return_parent_data($data)
-    {
-        $this->getData()->shouldReturn($data);
-    }
-
     function it_should_change_node_data()
     {
         $data = new \StdClass;
 
         $this->setData($data);
         $this->getData()->shouldReturn($data);
+        $this->getVars()->shouldReturn(array(
+            'data' => $data,
+            'id'   => 'the_id',
+            'tag'  => 'td',
+        ));
     }
 
     function it_should_return_an_array_of_vars($data)
     {
-        $this->getVars()->shouldBeArray();
+        $this->getVars()->shouldReturn(array(
+            'data' => null,
+            'id'   => 'the_id',
+            'tag'  => 'td',
+        ));
+    }
+
+    function it_should_compile_node($parent)
+    {
+        $parent->getVars()->shouldBeCalled();
+
+        $this->compile();
+        $this->getVars()->shouldReturn(array(
+            'blocks' => array('_parent_the_id', '_parent_td', '_array_the_id', '_array_td'),
+            'data'   => null,
+            'id'     => 'the_id',
+            'tag'    => 'td',
+        ));
     }
 }

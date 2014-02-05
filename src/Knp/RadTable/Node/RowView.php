@@ -6,20 +6,17 @@ class RowView extends NodeView implements \IteratorAggregate
 {
     protected $nodes;
 
-    public function __construct($id, $item = null, array $config = array())
+    public function __construct($id, array $config = array())
     {
-        parent::__construct(
-            $id,
-            array_merge(array('data' => $item), $config)
-        );
+        parent::__construct($id, $config);
 
         $this->nodes = array();
     }
 
     public function add(NodeView $node)
     {
-        $node->setParent($this);
         $this->nodes[] = $node;
+        $node->setParent($this);
     }
 
     public function getNodes()
@@ -27,12 +24,12 @@ class RowView extends NodeView implements \IteratorAggregate
         return $this->nodes;
     }
 
-    public function compute()
+    public function compile()
     {
-        parent::compute();
+        parent::compile();
 
         foreach ($this->nodes as $node) {
-            $node->compute();
+            $node->compile();
         }
     }
 
@@ -48,8 +45,9 @@ class RowView extends NodeView implements \IteratorAggregate
 
     protected function getDefaultConfig()
     {
-        return array(
-            'tag' => 'tr',
+        return array_merge(
+            parent::getDefaultConfig(),
+            array('tag' => 'tr')
         );
     }
 }

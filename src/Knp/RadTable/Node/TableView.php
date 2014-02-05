@@ -7,11 +7,11 @@ class TableView extends NodeView
     protected $headers;
     protected $rows;
 
-    public function __construct($name, $items, $mapping)
+    public function __construct($name, $mapping)
     {
         parent::__construct(
             'table',
-            array('mapping' => $mapping, 'data' => $items, 'name' => $name)
+            array('mapping' => $mapping, 'name' => $name)
         );
 
         $this->headers = new RowView('header');
@@ -48,14 +48,14 @@ class TableView extends NodeView
         return null;
     }
 
-    public function compute()
+    public function compile()
     {
-        parent::compute();
+        parent::compile();
 
-        $this->headers->compute();
+        $this->headers->compile();
 
         foreach ($this->rows as $row) {
-            $row->compute();
+            $row->compile();
         }
 
         $this->footer->compute();
@@ -76,8 +76,9 @@ class TableView extends NodeView
 
     protected function getDefaultConfig()
     {
-        return array(
-            'tag' => 'table',
+        return array_merge(
+            parent::getDefaultConfig(),
+            array('tag' => 'table')
         );
     }
 }
