@@ -1,0 +1,68 @@
+{% block _node_outter %}
+{% spaceless %}
+{{ ('<' ~ node.vars.tag ~ ' name="' ~ node.vars.blocks[0] ~ '">')|raw }}
+    {{ knp_table_inner(node) }}
+{{ ('</' ~ node.vars.tag ~ '>')|raw }}
+{% endspaceless %}
+{% endblock _node_outter %}
+
+{% block _table_outter %}
+{{ block('_node_outter') }}
+{% endblock _table_outter %}
+
+{% block _table_inner %}
+{% spaceless %}
+<thead>
+    {{ knp_table_outter(node.headers) }}
+</thead>
+<tbody>
+{% for row in node.rows %}
+{{ knp_table_outter(row) }}
+{% endfor %}
+</tbody>
+{% endspaceless %}
+{% endblock _table_inner %}
+
+{% block _table_header_outter %}
+{{ block('_node_outter') }}
+{% endblock _table_header_outter %}
+
+{% block _table_header_inner %}
+{% spaceless %}
+{% for header in node %}
+{{ knp_table_outter(header) }}
+{% endfor %}
+{% endspaceless %}
+{% endblock _table_header_inner %}
+
+{% block _table_header_th_outter %}
+{{ block('_node_outter') }}
+{% endblock _table_header_th_outter %}
+
+{% block _table_header_th_inner %}
+{% spaceless %}
+{{ node.vars.label }}
+{% endspaceless %}
+{% endblock _table_header_th_inner %}
+
+{% block _table_item_outter %}
+{{ block('_node_outter') }}
+{% endblock _table_item_outter %}
+
+{% block _table_item_inner %}
+{% spaceless %}
+{% for cell in node %}
+{{ knp_table_outter(cell) }}
+{% endfor %}
+{% endspaceless %}
+{% endblock _table_item_inner %}
+
+{% block _table_item_td_outter %}
+{{ block('_node_outter') }}
+{% endblock _table_item_td_outter %}
+
+{% block _table_item_td_inner %}
+{% spaceless %}
+{{ knp_table_item_value(node.vars.data, node.vars.id) }}
+{% endspaceless %}
+{% endblock _table_item_td_inner %}

@@ -1,0 +1,21 @@
+parameters:
+    knp_rad.twig.table_extension.class: Knp\RadTable\Twig\TableExtension
+    knp_rad.table.factory.class: Knp\RadTable\Table\TableFactory
+    knp_rad.table.renderer.class: Knp\RadTable\Table\TableRenderer
+
+services:
+    knp_rad.table.factory:
+        class: %knp_rad.table.factory.class%
+    knp_rad.table.renderer:
+        class: %knp_rad.table.renderer.class%
+    knp_rad.twig.table_extension:
+        class: %knp_rad.twig.table_extension.class%
+        arguments:
+            - @knp_rad.table.factory
+            - @knp_rad.table.renderer
+            - @twig
+            - @property_accessor
+        calls:
+            - [ setTheme: [ '', './Test.html.twig' ] ]
+        tags:
+            - { name: twig.extension }

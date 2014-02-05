@@ -1,5 +1,5 @@
 {
-    "name": "knplabs/knp-rad-table",
+    "name": "knplabs/rad-table",
     "require-dev": {
         "phpspec/phpspec": "~2@dev"
     },
@@ -13,5 +13,6 @@
     },
     "autoload": {
         "psr-0": { "Knp\\RadTable": "src/" }
-    }
+    },
+    "target-dir": "Knp/RadTable"
 }

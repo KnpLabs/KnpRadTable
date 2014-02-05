@@ -44,6 +44,7 @@ class TableExtension extends \Twig_Extension
 
     public function setTheme($name, $template)
     {
+        var_dump($template);
         if (!array_key_exists($name, $this->themes)) {
             $this->themes[$name] = $this->twig->loadTemplate($template);
         }
