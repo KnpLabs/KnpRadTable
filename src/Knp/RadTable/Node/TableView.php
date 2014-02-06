@@ -57,6 +57,8 @@ class TableView extends NodeView
         foreach ($this->rows as $row) {
             $row->compute();
         }
+
+        $this->footer->compute();
     }
 
     protected function getBlockSuffixes()
