@@ -16,8 +16,10 @@ class TableView extends NodeView
 
         $this->headers = new RowView('header');
         $this->rows    = array();
+        $thid->footer  = new NodeView('footer', array('tag' => 'tfoot'));
 
         $this->headers->setParent($this);
+        $this->footer->setParent($this);
     }
 
     public function getHeaders()
