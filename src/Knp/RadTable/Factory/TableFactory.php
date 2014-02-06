@@ -30,6 +30,7 @@ class TableFactory implements TableFactoryInterface
             }
 
             $table->addRow($row);
+            $row->setData($item);
         }
 
         return $table;
