@@ -13,6 +13,5 @@
     },
     "autoload": {
         "psr-0": { "Knp\\RadTable": "src/" }
-    },
-    "target-dir": "Knp/RadTable"
+    }
 }
