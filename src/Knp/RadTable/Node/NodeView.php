@@ -31,14 +31,8 @@ class NodeView implements NodeViewInterface
     public function setParent(NodeViewInterface $parent)
     {
         $this->parent = $parent;
-        $this->setData($this->parent->getData());
 
         return $this;
-    }
-
-    public function getData()
-    {
-        return $this->vars['data'];
     }
 
     public function setData($data)
@@ -59,6 +53,7 @@ class NodeView implements NodeViewInterface
             }
 
             $vars = $this->parent->getVars();
+            $this->vars = array_merge($vars, $this->vars);
 
             foreach ($vars['blocks'] as $block) {
                 foreach ($this->getBlockSuffixes() as $suffixe) {

@@ -13,7 +13,7 @@ class RowView extends NodeView implements \IteratorAggregate
         $this->nodes = array();
     }
 
-    public function add(NodeView $node)
+    public function add(NodeViewInterface $node)
     {
         $this->nodes[] = $node;
         $node->setParent($this);

@@ -1,12 +1,13 @@
 {
     "name": "knplabs/rad-table",
     "require-dev": {
-        "phpspec/phpspec": "~2@dev"
+        "phpspec/phpspec": "~2@dev",
+        "knplabs/phpspec-welldone-extension": "dev-master"
     },
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-
+        "twig/twig": "~1.0"
     },
     "config": {
         "bin-dir": "bin"
