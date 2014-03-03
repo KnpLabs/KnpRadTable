@@ -58,7 +58,7 @@ class TableView extends NodeView
             $row->compile();
         }
 
-        $this->footer->compute();
+        $this->footer->compile();
     }
 
     protected function getBlockSuffixes()

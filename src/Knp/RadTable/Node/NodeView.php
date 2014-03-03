@@ -6,6 +6,7 @@ class NodeView implements NodeViewInterface
 {
     protected $parent;
     protected $vars;
+    protected $config;
     protected $compiled;
 
     public function __construct($id, array $config = array())
@@ -15,6 +16,7 @@ class NodeView implements NodeViewInterface
             array('id' => $id),
             $config
         );
+        $this->config   = $config;
         $this->compiled = false;
     }
 

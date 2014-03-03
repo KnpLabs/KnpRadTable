@@ -93,7 +93,7 @@ class TableExtension extends \Twig_Extension
 
     protected function init()
     {
-        if (0 === count($this->themes)) {
+        if (empty($this->themes[''])) {
             $this->setTheme('', $this->baseTheme, true);
         }
     }
