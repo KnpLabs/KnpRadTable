@@ -4,7 +4,10 @@ namespace Knp\RadTable\Node;
 
 interface NodeViewInterface
 {
+    function setParent(NodeViewInterface $node);
     function getParent();
-    function getData();
-    function compute();
+    function setData($data);
+    function getVars();
+    function compile();
+    function isCompiled();
 }

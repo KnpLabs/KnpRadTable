@@ -5,17 +5,22 @@ namespace spec\Knp\RadTable\Node;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class NodeViewSpec extends ObjectBehavior
+class RowViewSpec extends ObjectBehavior
 {
     /**
      * @param Knp\RadTable\Node\NodeViewInterface $parent
-     * @param Knp\RadTable\Node\NodeViewInterface $parent2
+     * @param Knp\RadTable\Node\NodeViewInterface $child1
+     * @param Knp\RadTable\Node\NodeViewInterface $child2
+     * @param Knp\RadTable\Node\NodeViewInterface $child3
      * @param StdClass $data
      **/
-    function let($parent, $parent2, $data)
+    function let($parent, $data, $child1, $child2, $child3)
     {
         $this->beConstructedWith('the_id', []);
         $this->setParent($parent);
+        $this->add($child1);
+        $this->add($child2);
+        $this->add($child3);
 
         $parent->getVars()->willReturn([]);
         $parent->isCompiled()->willReturn(true);
@@ -24,22 +29,11 @@ class NodeViewSpec extends ObjectBehavior
             'tag' => 'tr',
             'blocks' => array('_parent', '_array'),
         ));
-}
+    }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\RadTable\Node\NodeView');
-    }
-
-    function it_should_be_linked_to_parent($parent)
-    {
-        $this->getParent()->shouldReturn($parent);
-    }
-
-    function it_should_replace_the_parent($parent2)
-    {
-        $this->setParent($parent2)->shouldReturn($this);
-        $this->getParent()->shouldReturn($parent2);
+        $this->shouldHaveType('Knp\RadTable\Node\RowView');
     }
 
     function it_should_change_node_data()
@@ -50,8 +44,13 @@ class NodeViewSpec extends ObjectBehavior
         $this->getVars()->shouldReturn(array(
             'data' => $data,
             'id'   => 'the_id',
-            'tag'  => 'td',
+            'tag'  => 'tr',
         ));
+    }
+
+    function it_should_return_nodes($child1, $child2, $child3)
+    {
+        $this->getNodes()->shouldReturn(array($child1, $child2, $child3));
     }
 
     function it_should_return_an_array_of_vars($data)
@@ -59,20 +58,23 @@ class NodeViewSpec extends ObjectBehavior
         $this->getVars()->shouldReturn(array(
             'data' => null,
             'id'   => 'the_id',
-            'tag'  => 'td',
+            'tag'  => 'tr',
         ));
     }
 
-    function it_should_compile_node($parent)
+    function it_should_compile_node($parent, $child1, $child2, $child3)
     {
         $parent->getVars()->shouldBeCalled();
+        $child1->compile()->shouldBeCalled();
+        $child2->compile()->shouldBeCalled();
+        $child3->compile()->shouldBeCalled();
 
         $this->compile();
         $this->getVars()->shouldReturn(array(
-            'blocks' => array('_parent_the_id', '_parent_td', '_array_the_id', '_array_td'),
+            'blocks' => array('_parent_the_id', '_array_the_id'),
             'data'   => null,
             'id'     => 'the_id',
-            'tag'    => 'td',
+            'tag'    => 'tr',
         ));
     }
 }

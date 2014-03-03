@@ -64,7 +64,7 @@ class TableExtension extends \Twig_Extension
     public function renderTable($items, array $mapping, array $config = array())
     {
         $table = $this->tableFactory->create($items, $mapping, $config);
-        $table->compute();
+        $table->compile();
 
         return $this->renderNodeOutter($table);
     }
@@ -93,7 +93,7 @@ class TableExtension extends \Twig_Extension
 
     protected function init()
     {
-        if (0 === count($this->themes)) {
+        if (empty($this->themes[''])) {
             $this->setTheme('', $this->baseTheme, true);
         }
     }
